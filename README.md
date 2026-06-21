@@ -148,9 +148,14 @@ ve isteğe bağlı bir LaTeX dağıtımı (PDF için) gerektirir.
    çalıştırır:
    ```bash
    pandoc rapor.md -o rapor.docx
-   # PDF için (LaTeX kuruluyken):
-   pandoc rapor.md -o rapor.pdf
+   # PDF için (LaTeX kuruluyken), XeLaTeX motoru ve Türkçe karakter destekleyen bir font ile:
+   pandoc rapor.md -o rapor.pdf --pdf-engine=xelatex -V mainfont="Helvetica"
    ```
+   Not: `-V lang=tr-TR` (babel) seçeneğini eklemeyin — BasicTeX/temel TeX Live
+   dağıtımlarında Türkçe babel dil paketi varsayılan olarak gelmez ve
+   `Unknown option 'turkish'` hatasıyla derleme başarısız olur. `mainfont`
+   belirtmeden bırakırsanız XeLaTeX varsayılan fontla devam eder, Türkçe
+   karakterler (ç, ğ, ı, ö, ş, ü) yine doğru render edilir.
 3. Çıktı, `pdf_writer.py`'nin ürettiği basit PDF'den farklı olarak, akademik
    makale formatlama kurallarına (başlık hiyerarşisi, atıf stili dönüşümü vb.)
    uygun bir belge olur.
