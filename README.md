@@ -148,14 +148,20 @@ ve isteğe bağlı bir LaTeX dağıtımı (PDF için) gerektirir.
    çalıştırır:
    ```bash
    pandoc rapor.md -o rapor.docx
-   # PDF için (LaTeX kuruluyken), XeLaTeX motoru ve Türkçe karakter destekleyen bir font ile:
-   pandoc rapor.md -o rapor.pdf --pdf-engine=xelatex -V mainfont="Helvetica"
+   # PDF için (LaTeX kuruluyken), XeLaTeX motoru ve Türkçe + matematik/Yunan
+   # sembollerini (α, μ, σ vb.) destekleyen bir font ile:
+   pandoc rapor.md -o rapor.pdf --pdf-engine=xelatex -V mainfont="STIX Two Text"
    ```
-   Not: `-V lang=tr-TR` (babel) seçeneğini eklemeyin — BasicTeX/temel TeX Live
-   dağıtımlarında Türkçe babel dil paketi varsayılan olarak gelmez ve
-   `Unknown option 'turkish'` hatasıyla derleme başarısız olur. `mainfont`
-   belirtmeden bırakırsanız XeLaTeX varsayılan fontla devam eder, Türkçe
-   karakterler (ç, ğ, ı, ö, ş, ü) yine doğru render edilir.
+   Notlar:
+   - `-V lang=tr-TR` (babel) seçeneğini eklemeyin — BasicTeX/temel TeX Live
+     dağıtımlarında Türkçe babel dil paketi varsayılan olarak gelmez ve
+     `Unknown option 'turkish'` hatasıyla derleme başarısız olur.
+   - Rapor formüllerde Yunan harfi (α, μ, σ gibi) içeriyorsa `mainfont`'u
+     "STIX Two Text" olarak belirtin (macOS'ta önceden kurulu gelir) — aksi
+     halde varsayılan Latin Modern fontunda bu karakterler eksik kalır
+     (`Missing character` uyarısı, çıktıda boşluk olarak görünür).
+   - Formül/Yunan harfi yoksa `mainfont` belirtmeden de Türkçe karakterler
+     (ç, ğ, ı, ö, ş, ü) doğru render edilir.
 3. Çıktı, `pdf_writer.py`'nin ürettiği basit PDF'den farklı olarak, akademik
    makale formatlama kurallarına (başlık hiyerarşisi, atıf stili dönüşümü vb.)
    uygun bir belge olur.
