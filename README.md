@@ -24,8 +24,8 @@ bağlanmasını sağladığı için fine-tuning'e göre daha doğrulanabilir ve 
    Academic Pipeline skill'ine girdi olarak verilebilir.
 
 > **Lisans uyarısı:** `academic-research-skills` reposu CC-BY-NC 4.0 (ticari olmayan
-> kullanım) lisansı ile dağıtılıyor. Aselsan bağlamında ticari kullanım söz konusuysa
-> bu lisans koşulunu değerlendirin.
+> kullanım) lisansı ile dağıtılıyor. Ticari bir kullanım söz konusuysa bu lisans
+> koşulunu değerlendirin.
 
 ## Kurulum
 
@@ -124,6 +124,36 @@ Workflow({ scriptPath: "multi_agent_workflow.js", args: { topic: "<konu>" } })
 Script içindeki `REPO_DIR` ve python yorumlayıcı yolunu (`python3` / venv yolu)
 kendi ortamınıza göre güncelleyin (dosyanın başındaki `const REPO_DIR = ...`
 satırı ve `agent()` içindeki bash komutu).
+
+### G. Akademik formatta DOCX/PDF çıktı (academic-paper skill, opsiyonel)
+
+`report_generator.py` veya `multi_agent_workflow.js`'in ürettiği Markdown/metin
+taslağı, `academic-paper` skill'inin **format-convert** modu ile gerçek bir
+akademik belge formatına (DOCX veya PDF) çevrilebilir. Bu adım Pandoc (DOCX/PDF)
+ve isteğe bağlı bir LaTeX dağıtımı (PDF için) gerektirir.
+
+**Gereken araçlar:**
+- **Pandoc** — [pandoc.org/installing.html](https://pandoc.org/installing.html)
+  (macOS: `brew install pandoc`, Windows: `.msi` yükleyici veya
+  `winget install --id JohnMacFarlane.Pandoc`)
+- **LaTeX dağıtımı** (sadece PDF için gerekli; DOCX için gerekmez):
+  - macOS: `brew install --cask basictex` (admin şifresi gerektirir)
+  - Windows: [MiKTeX](https://miktex.org/download) — kurulumda "Install missing
+    packages on-the-fly" seçeneğini **Yes** yapın
+
+**Kullanım:**
+1. Raporu bir `.md` dosyasına kaydedin (Giriş/Bulgular/Sonuç/Kaynakça başlıklarıyla).
+2. Claude Code içinde `academic-paper` skill'ini "Convert to DOCX/PDF via Pandoc"
+   talimatıyla çağırın — skill `formatter_agent`'ı devreye girip Pandoc komutunu
+   çalıştırır:
+   ```bash
+   pandoc rapor.md -o rapor.docx
+   # PDF için (LaTeX kuruluyken):
+   pandoc rapor.md -o rapor.pdf
+   ```
+3. Çıktı, `pdf_writer.py`'nin ürettiği basit PDF'den farklı olarak, akademik
+   makale formatlama kurallarına (başlık hiyerarşisi, atıf stili dönüşümü vb.)
+   uygun bir belge olur.
 
 ## Klasör yapısı
 
