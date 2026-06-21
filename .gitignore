@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+venv/
+.env
+
+# Kanıt tabanı, kaynak PDF'ler ve üretilen raporlar telif/boyut nedeniyle commit edilmez.
+data/
+source_pdfs/
+output/
